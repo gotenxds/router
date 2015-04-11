@@ -63,7 +63,7 @@ class Router {
 
 
   /**
-   * @description Navigate to a URL.
+   * @description Navigate to a URL or Component.
    * Returns the cannonical URL for the route navigated to.
    */
   navigate(url) {
