@@ -71,6 +71,43 @@ export class Grammar {
     return instruction;
   }
 
+  recognizeComponent(name:string, parentComponentName = '/') {
+    if (typeof name === 'undefined') {
+      return;
+    }
+
+    var componentRecognizer = this.rules[parentComponentName];
+    if (!componentRecognizer) {
+      return;
+    }
+
+    var handlers = componentRecognizer.handlersFor(name);
+    if (!handlers) {
+      return;
+    }
+
+    var handler = handlers[0].handler;
+
+    var instruction = {
+      viewports: {},
+      params: {},
+      canonicalUrl: handler.path
+    };
+
+
+    forEach(handler.components, (componentName, viewportName) => {
+      instruction.viewports[viewportName] = {
+        viewports: {}
+      };
+    });
+
+    forEach(instruction.viewports, (instruction, componentName) => {
+      instruction.component = handler.components[componentName];
+    });
+
+    return instruction;
+  }
+
   generate(name, params) {
     var path = '';
     var solution;
@@ -181,6 +218,10 @@ class CanonicalRecognizer {
       context[0].handler.rewroteUrl = canonicalUrl;
     }
     return context;
+  }
+
+  handlersFor(componentName) {
+    return this.recognizer.handlersFor(componentName);
   }
 
   generate(name, params) {

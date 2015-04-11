@@ -73,7 +73,7 @@ class Router {
 
     this.lastNavigationAttempt = url;
 
-    var instruction = this.recognize(url);
+    var instruction = this.recognize(url) || this.recognizeComponent(url);
 
     if (!instruction) {
       return Promise.reject();
@@ -159,6 +159,10 @@ class Router {
 
   recognize(url) {
     return this.registry.recognize(url);
+  }
+
+  recognizeComponent(name) {
+    return this.registry.recognizeComponent(name);
   }
 
 
