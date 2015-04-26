@@ -701,6 +701,18 @@ describe('ngOutlet', function () {
     expect($router.navigating).toBe(false);
   });
 
+  it('Should allow navigating by component name', function () {
+    compile('<ng-viewport></ng-viewport>');
+
+    $router.config([
+      { path: '/', component: 'one' }
+    ]);
+
+    $router.navigate('/');
+    $rootScope.$digest();
+
+    expect(elt.text()).toBe('one');
+  });
 
   function registerComponent(name, template, componentConstructor, routeConfig) {
     if (!template) {
