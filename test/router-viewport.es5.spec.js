@@ -708,7 +708,7 @@ describe('ngOutlet', function () {
       { path: '/', component: 'one' }
     ]);
 
-    $router.navigate('/');
+    $router.navigate('one');
     $rootScope.$digest();
 
     expect(elt.text()).toBe('one');
